@@ -33,7 +33,7 @@ public class Process{
     	this.name = p.getName();
         this.arrivalTime = p.getArrivalTime();
         this.burstTime = p.getBurstTime();
-        this.remainingTime = p.getRemainingTime();
+        this.remainingTime = p.getBurstTime();
         this.lastEntered = p.getLastEntered();
         this.waitingTime = p.getWaitingTime();
         this.turnAround = p.getTurnAround();
