@@ -1,5 +1,3 @@
-import java.util.*;
-import java.lang.*;
 
 public class Process{
     private String name;
@@ -10,10 +8,10 @@ public class Process{
     private int waitingTime;
     private int turnAround;
     private int priority;
-    private int quantum;
+    private boolean isCompleted;
 
 
-    public Process(String name, int arrivalTime, int burstTime, int remainingTime, int lastEntered, int waitingTime, int turnAround, int priority, int quantum) {
+    public Process(String name, int arrivalTime, int burstTime, int remainingTime, int lastEntered, int waitingTime, int turnAround, int priority) {
         this.name = name;
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
@@ -22,7 +20,6 @@ public class Process{
         this.waitingTime = waitingTime;
         this.turnAround = turnAround;
         this.priority = priority;
-        this.quantum = quantum;
     }
 
 
@@ -32,7 +29,22 @@ public class Process{
         this.burstTime = burstTime;
         this.waitingTime = waitingTime;
     }
-
+    public Process(Process p) {
+    	this.name = p.getName();
+        this.arrivalTime = p.getArrivalTime();
+        this.burstTime = p.getBurstTime();
+        this.remainingTime = p.getRemainingTime();
+        this.lastEntered = p.getLastEntered();
+        this.waitingTime = p.getWaitingTime();
+        this.turnAround = p.getTurnAround();
+        this.priority = p.getPriority();
+    }
+    public Process(String name, int arrivalTime, int burstTime) {
+        this.name = name;
+        this.arrivalTime = arrivalTime;
+        this.burstTime = burstTime;
+        this.isCompleted = false;
+    }
     public void setName(String name) {
         this.name = name;
     }
@@ -64,11 +76,11 @@ public class Process{
     public void setPriority(int priority) {
         this.priority = priority;
     }
-
-    public void setQuantum(int quantum) {
-        this.quantum = quantum;
+    
+    public void setIsCompleted(boolean isCompleted) {
+    	this.isCompleted = isCompleted;
     }
-
+    
     public String getName() {
         return name;
     }
@@ -100,13 +112,13 @@ public class Process{
     public int getPriority() {
         return priority;
     }
-
-    public int getQuantum() {
-        return quantum;
+    
+    public boolean getIsCompleted() {
+    	return isCompleted;
     }
 
     public static void Main(String[] args){
-        Process p = new Process("okasha",1,2,3,4,5,6,7,8);
+        Process p = new Process("okasha",1,2,3,4,5,6,7);
         System.out.println(p.getName());
     }
 }
