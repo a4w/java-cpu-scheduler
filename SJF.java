@@ -37,7 +37,7 @@ public class SJF {
 			if(!processes.elementAt(i).getIsCompleted() && processes.elementAt(i).getArrivalTime() <= time)
 				readyQ.add(processes.elementAt(i));
 		}
-		readyQ.sort(Comparator.comparing(Process::getArrivalTime).thenComparingInt(Process::getBurstTime));
+		readyQ.sort(Comparator.comparing(Process::getBurstTime));
 	}
 	public static void SJFScheduler() {
 		int time = processes.elementAt(0).getArrivalTime();
