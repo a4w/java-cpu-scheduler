@@ -1,22 +1,36 @@
+import java.util.ArrayList;
+import java.util.List;
 
+class agProcess extends Process{
+	int quantum;
+	int agFactor;
+	public agProcess(Process p, int q) {
+		super(p);
+		this.quantum = q;
+		this.agFactor = p.getArrivalTime() + p.getBurstTime() + p.getPriority();
+	}
+}
 
 public class agScheduler extends Scheduler {
 
-	agScheduler(GUIScheduler gui) {
+	ExecutionSegment current = new ExecutionSegment();
+	private static List<agProcess> processes = new ArrayList<agProcess>();
+	List<agProcess> arrivedAndWaitig = new ArrayList<agProcess>();
+	int numOfProcesses = 0;
+	int q = 0;
+	public agScheduler(GUIScheduler gui, int q) {
 		super(gui);
-		// TODO Auto-generated constructor stub
+		numOfProcesses = processes.size() - 1;
+		this.q = q;
 	}
-
-	@Override
+	public agScheduler(GUIScheduler gui){
+		super(gui);
+	}
 	public Process[] getProcesses() {
-		// TODO Auto-generated method stub
-		return null;
+		return (Process[]) processes.toArray();
 	}
-
-	@Override
-	public void addProcess(Process process) {
-		// TODO Auto-generated method stub
-		
-	}
-
-}
+    public void addProcess(Process process) {
+    	agProcess p = new agProcess(process, this.q);
+    	processes.add(p);    	
+    }
+ }
