@@ -4,5 +4,5 @@ abstract class Scheduler{
         this.gui = gui;
     }
     abstract public Process[] getProcesses();
-    abstract public void addProcess();
+    abstract public void addProcess(Process process);
 }

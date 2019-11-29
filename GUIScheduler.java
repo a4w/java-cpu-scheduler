@@ -1,3 +1,5 @@
+import javax.swing.JFrame;
+
 class GUIScheduler extends JFrame{
     GUIScheduler(){
 
