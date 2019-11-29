@@ -11,6 +11,7 @@ public class Process{
     private int turnAround;
     private int priority;
     private int quantum;
+    private boolean isCompleted;
 
 
     public Process(String name, int arrivalTime, int burstTime, int remainingTime, int lastEntered, int waitingTime, int turnAround, int priority, int quantum) {
@@ -31,6 +32,12 @@ public class Process{
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
         this.waitingTime = waitingTime;
+    }
+    public Process(String name, int arrivalTime, int burstTime) {
+        this.name = name;
+        this.arrivalTime = arrivalTime;
+        this.burstTime = burstTime;
+        this.isCompleted = false;
     }
 
     public void setName(String name) {
@@ -68,6 +75,10 @@ public class Process{
     public void setQuantum(int quantum) {
         this.quantum = quantum;
     }
+    
+    public void setIsCompleted(boolean isCompleted) {
+    	this.isCompleted = isCompleted;
+    }
 
     public String getName() {
         return name;
@@ -103,6 +114,10 @@ public class Process{
 
     public int getQuantum() {
         return quantum;
+    }
+    
+    public boolean getIsCompleted() {
+    	return isCompleted;
     }
 
     public static void Main(String[] args){
