@@ -65,7 +65,8 @@ public class priorityScheduler {
 				averageWaitingTime += executionSegment.process.getWaitingTime();
 				completedProcesses.add(executionSegment);
 				//for aging:
-				//readyQ.elementAt(readyQ.size() - 1).setPriority(readyQ.elementAt(readyQ.size() - 1).getPriority() - 1);
+				for(int i = 1 ; i < readyQ.size() ; i++)
+					readyQ.elementAt(i).setPriority(readyQ.elementAt(i).getPriority() - 1);
 			}
 			else if(completed != processes.size())
 				time = processes.elementAt(completed).getArrivalTime();
