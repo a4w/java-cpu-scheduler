@@ -29,6 +29,12 @@ public class Process{
         this.burstTime = burstTime;
         this.waitingTime = waitingTime;
     }
+    public Process(int arrivalTime, int burstTime, int priority, String name) {
+    	this.name = name;
+        this.arrivalTime = arrivalTime;
+        this.burstTime = burstTime;
+        this.priority = priority;
+    }
     public Process(Process p) {
     	this.name = p.getName();
         this.arrivalTime = p.getArrivalTime();
