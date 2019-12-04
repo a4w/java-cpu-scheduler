@@ -2,9 +2,25 @@ import java.util.Comparator;
 import java.util.Scanner;
 import java.util.Vector;
 
-public class SJF {
+public class SJF extends Scheduler{
+	
 	public static Vector<Process> processes = new Vector<Process>();
-	public static void main(String[] args) {
+	public static Vector<ExecutionSegment> completedProcesses = new Vector<ExecutionSegment>();
+	public static Vector<Process> readyQ = new Vector<Process>();
+
+	public SJF(GUIScheduler gui) {
+		super(gui);
+	}
+	public Process[] getProcesses() {
+		Vector<Process> allProcesses = new Vector<Process>();
+		for(int i = 0 ; i < completedProcesses.size() ; i++)
+			allProcesses.add(completedProcesses.elementAt(i).process);
+		return (Process[]) processes.toArray();
+	}
+	public void addProcess(Process process) {
+		processes.add(process);		
+	}
+	/*public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("num of processes :");
 		int numOfProcesses = Integer.parseInt(sc.nextLine());
@@ -29,7 +45,7 @@ public class SJF {
 		processes.sort(Comparator.comparing(Process::getArrivalTime).thenComparingInt(Process::getBurstTime));
 		SJFScheduler();
 	}
-	public static Vector<Process> readyQ = new Vector<Process>();
+	*/
 	public static void addToReadyQ(int time) {
 		readyQ.clear();
 		for(int i = 0 ; i < processes.size() ; i++)
@@ -40,12 +56,12 @@ public class SJF {
 		readyQ.sort(Comparator.comparing(Process::getBurstTime));
 	}
 	public static void SJFScheduler() {
+		processes.sort(Comparator.comparing(Process::getArrivalTime).thenComparingInt(Process::getBurstTime));
 		int time = processes.elementAt(0).getArrivalTime();
 		int completed = 0;
 		double averageTurnaroundTime = 0;
 		double averageWaitingTime = 0;
 		//Vector<Process> completedProcesses = new Vector<Process>();
-		Vector<ExecutionSegment> completedProcesses = new Vector<ExecutionSegment>();
 		while(true) {
 			addToReadyQ(time);
 			if(readyQ.size() != 0) {
@@ -70,7 +86,9 @@ public class SJF {
 		averageTurnaroundTime /= completedProcesses.size();
 		averageWaitingTime /= completedProcesses.size();
 		for(int i = 0 ; i < completedProcesses.size() ; i++)
-			System.out.println(completedProcesses.elementAt(i).process.getName() + "   " + completedProcesses.elementAt(i).start_time + "   " + completedProcesses.elementAt(i).end_time);
-		System.out.println("avg waiting : " + averageWaitingTime + "  avg turnaround : " + averageTurnaroundTime);
+			System.out.println("Process : " + completedProcesses.elementAt(i).process.getName() + "  starts : " + completedProcesses.elementAt(i).start_time + "  ends : " + completedProcesses.elementAt(i).end_time +
+					"  , waiting time : " + completedProcesses.elementAt(i).process.getWaitingTime() + "  , turnaround time : " + completedProcesses.elementAt(i).process.getTurnAround());
+		System.out.println("avg waiting time : " + averageWaitingTime + "  avg turnaround time : " + averageTurnaroundTime);
 	}
+	
 }
