@@ -6,11 +6,12 @@ import java.util.Set;
 
 public class agScheduler extends Scheduler {
 
-	static ExecutionSegment current = new ExecutionSegment();
+	private static ExecutionSegment current = new ExecutionSegment();
 	private static List<agProcess> processes = new ArrayList<agProcess>();
-	private static List<agProcess> newArrival = new ArrayList<agProcess>();
 	private static Set<agProcess> arrivedAndWaiting = new LinkedHashSet<agProcess>();
-	public static int numOfProcesses = 0;
+	private static int numOfProcesses = 0;
+	private static double avgWaitingTime = 0.0;
+	private static double avgTurnAroundTime = 0.0;
 	int q = 0;
 	public agScheduler(GUIScheduler gui, int q) {
 		super(gui);
@@ -32,11 +33,10 @@ public class agScheduler extends Scheduler {
     	processes.sort(Comparator.comparing(Process::getArrivalTime));
 		int lastArrival = processes.get(0).getArrivalTime();
 		int lastArrivalIndex = 0;
-		agProcess p = processes.get(numOfProcesses - 1);
+		int finished = 0;
+		agProcess p = null;
 		agProcess currentProcess = null;
-		int endOfExcutionTime = runTime() + 1 ; 
-		p = null;
-		for(int currentTime = 0; currentTime <= endOfExcutionTime; ++currentTime) { //Time Loop
+		for(int currentTime = 0; finished != numOfProcesses; ++currentTime) { //Time Loop
 			System.out.println("<----------- Current Time: " + currentTime + " -----------> ");
 			if(currentProcess != null && currentProcess.getRemainingTime() != 0) {
 				currentProcess.setRemainingTime(currentProcess.getRemainingTime() - 1);
@@ -52,19 +52,22 @@ public class agScheduler extends Scheduler {
 				arrivedAndWaiting.add(processes.get(lastArrivalIndex));
 				lastArrival = processes.get(lastArrivalIndex++).getArrivalTime();
 			}
-			traverseLists();
 			if(currentProcess == null) {
-				currentProcess = getBestFit(currentTime);
-				if(currentProcess != null)System.out.println("Process:" +currentProcess.getName() + " Occupied Idle CPU");
+				currentProcess = getFirstInWaiting(currentTime);
+				if(currentProcess != null)System.out.println("Process: " +currentProcess.getName() + " Occupied Idle CPU after");
 				traverseProcess(currentProcess);
 			}else if(currentProcess.getRemainingTime() == 0) {
 				currentProcess.endTime = currentTime;
 				current.end_time = currentTime;
+				gui.switchExecution(current);
 				currentProcess.quantum = 0;
 				//Get first process in waiting queue
-				currentProcess = getBestFit(currentTime);
-				agProcess pp = currentProcess;
-				if(currentProcess != null)System.out.println("Process:" +currentProcess.getName() + " Occupied the CPU after " + pp.getName() + " Left");
+				p = getFirstInWaiting(currentTime);
+				System.out.println(currentProcess.getName() + " completed it's burst & Left CPU");
+				++finished;
+				if(p != null)System.out.println("Process: " +p.getName() + " Occupied the CPU");
+				currentProcess = p;
+				p = null;
 				this.traverseProcess(currentProcess);
 			}else if(currentProcess.getRemainingTime() != 0){
 				//If quantum time passed
@@ -74,9 +77,13 @@ public class agScheduler extends Scheduler {
 					currentProcess.quantum += getMeanQuantum(currentProcess);
 					currentProcess.endTime = currentTime;
 					current.end_time = currentTime;
+					System.out.println(currentProcess.getName() + "'s new quantum is: " + currentProcess.quantum);
+					 gui.switchExecution(current);
 					arrivedAndWaiting.add(currentProcess);
-					currentProcess = getBestFit(currentTime);
-					System.out.println("Process "+ p.getName() + " swapped with " + currentProcess.getName() + " after quantum finished");
+					p = getFirstInWaiting(currentTime);
+					if(p != null)System.out.println("Process "+ p.getName() + " Occupied the CPU after " + currentProcess.getName() + "'s quantum finished");
+					currentProcess = p;
+					p = null;
 					traverseProcess(currentProcess);
 				}
 				//If quantum hasn't passed yet but 50% of in has elapsed 
@@ -88,6 +95,8 @@ public class agScheduler extends Scheduler {
 						currentProcess.quantum += ((currentProcess.startTime + currentProcess.quantum) - currentTime);
 						currentProcess.endTime = currentTime;
 						current.end_time = currentTime;
+						gui.switchExecution(current);
+						System.out.println(currentProcess.getName() + "'s new quantum is: " + currentProcess.quantum);
 						//Append running in waiting queue
 						arrivedAndWaiting.add(currentProcess);
 						//Switch process ad delete from waiting
@@ -95,14 +104,16 @@ public class agScheduler extends Scheduler {
 						currentProcess = p;
 						traverseProcess(currentProcess);
 						currentProcess.startTime = currentTime;
-						//current.start_time = currentTime;
+						current.start_time = currentTime;
 						arrivedAndWaiting.remove(p);
 						p = null;
 					}
 
 				}
 			}
-		}	
+		}
+		calculateTurnAround();
+		calculateWaiting();
 	}
     private int getMeanQuantum(agProcess runningProcess) {
 		int mean = 0;
@@ -114,22 +125,15 @@ public class agScheduler extends Scheduler {
 	}
     void traverseLists() {
 		System.out.println();
-		System.out.print("Waiting :"+ arrivedAndWaiting.size()  +":  ---------> ");
+		System.out.print("Waiting :"+ arrivedAndWaiting.size()  +": --");
 		for(int i = 0; i < arrivedAndWaiting.size(); ++i)
-			System.out.print( agScheduler.get(i).getName() + " -- ");
-		System.out.println();
-		System.out.print("Arrived :"+ processes.size()  +":  ---------> ");
-		for(int i = 0; i < newArrival.size(); ++i)
-			System.out.print( newArrival.get(i).getName() + " -- ");
+			System.out.print(" -> " + agScheduler.get(i).getName());
 		System.out.println();
 	}
 	void traverseProcess(agProcess currentProcess) {
 		if(currentProcess != null) 
-			System.out.println("\nName: "+ currentProcess.getName() +
-								"\nAG Factor: " + currentProcess.agFactor + 
+			System.out.println(currentProcess.getName() + " Running" +
 								"\nStart Time: " + currentProcess.startTime + 
-								"\nEnd Time: " + currentProcess.endTime + 
-								"\nQuantum: " + currentProcess.quantum +
 								"\nRemaining Time: " + currentProcess.getRemainingTime() + "" );
 	}
 	private static agProcess get(int i) {
@@ -137,6 +141,27 @@ public class agScheduler extends Scheduler {
 		agProcess p = list.get(i);
 		return p;
 	}
+	private static void calculateTurnAround() {
+		for(agProcess p: processes) {
+			p.setTurnAround(p.endTime - p.getArrivalTime());
+			avgTurnAroundTime += p.getTurnAround();
+		}
+		avgTurnAroundTime /= (double)processes.size();
+	}
+	private static void calculateWaiting() {
+		for(agProcess p: processes) {
+			p.setWaitingTime(p.getTurnAround() - p.getBurstTime());
+			avgWaitingTime += p.getWaitingTime();
+		}
+		avgWaitingTime /= (double)processes.size();
+	}
+	public double getAvgTurnAroundTime() {
+        return avgTurnAroundTime;
+    }
+    
+    public double getAvgWaitingTime() {
+    	return avgWaitingTime;
+    }
 	private static agProcess getLeastAGfactor() {
 		List<agProcess> list = new ArrayList<agProcess>(arrivedAndWaiting);
 		agProcess p = null;
@@ -147,14 +172,7 @@ public class agScheduler extends Scheduler {
 		}
 		return p;
 	}
-	private static int runTime(){
-		int end = 0;
-		for(int i = 0; i < processes.size(); ++i) {
-			end += processes.get(i).getBurstTime();
-		}
-		return end;
-	}
-	private static agProcess getBestFit(int currentTime){
+	private static agProcess getFirstInWaiting(int currentTime){
 		agProcess currentProcess = null;
 		if(arrivedAndWaiting.size() >= 1) {
 			currentProcess = agScheduler.get(0);

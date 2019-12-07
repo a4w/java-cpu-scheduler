@@ -22,19 +22,6 @@ public class Process{
         this.priority = priority;
     }
 
-
-    public Process(String name, int arrivalTime, int burstTime, int waitingTime) {
-        this.name = name;
-        this.arrivalTime = arrivalTime;
-        this.burstTime = burstTime;
-        this.waitingTime = waitingTime;
-    }
-    public Process(int arrivalTime, int burstTime, int priority, String name) {
-    	this.name = name;
-        this.arrivalTime = arrivalTime;
-        this.burstTime = burstTime;
-        this.priority = priority;
-    }
     public Process(Process p) {
     	this.name = p.getName();
         this.arrivalTime = p.getArrivalTime();
@@ -44,18 +31,6 @@ public class Process{
         this.waitingTime = p.getWaitingTime();
         this.turnAround = p.getTurnAround();
         this.priority = p.getPriority();
-    }
-    public Process(String name, int arrivalTime, int burstTime) {
-        this.name = name;
-        this.arrivalTime = arrivalTime;
-        this.burstTime = burstTime;
-        this.isCompleted = false;
-    }
-    public Process(String name, int arrivalTime, int remainingTime, boolean isCompleted){
-        this.name = name;
-        this.arrivalTime = arrivalTime;
-        this.remainingTime = remainingTime;
-        this.isCompleted = isCompleted;
     }
     public void setName(String name) {
         this.name = name;
