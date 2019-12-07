@@ -92,7 +92,8 @@ public class SRTF extends Scheduler{
         averageTurnaroundTime /= processes.size();
         averageWaitingTime /= processes.size();
         for(int i = 0 ; i < completedProcesses.size() ; i++)
-            System.out.println("Process : " + completedProcesses.elementAt(i).process.getName() + "  starts : " + completedProcesses.elementAt(i).start_time + "  ends : " + completedProcesses.elementAt(i).end_time);
-        System.out.println("avg waiting time : " + averageWaitingTime + "  avg turnaround time : " + averageTurnaroundTime);
+        	System.out.println("Process : " + completedProcesses.elementAt(i).process.getName() + "  starts : " + completedProcesses.elementAt(i).start_time + "  ends : " + completedProcesses.elementAt(i).end_time +
+					"  , waiting time : " + completedProcesses.elementAt(i).process.getWaitingTime() + "  , turnaround time : " + completedProcesses.elementAt(i).process.getTurnAround());
+		System.out.println("avg waiting time : " + averageWaitingTime + "  avg turnaround time : " + averageTurnaroundTime);
     }
 }

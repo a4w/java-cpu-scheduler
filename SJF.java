@@ -7,7 +7,6 @@ public class SJF extends Scheduler{
 	public static Vector<Process> processes = new Vector<Process>();
 	public static Vector<ExecutionSegment> completedProcesses = new Vector<ExecutionSegment>();
 	public static Vector<Process> readyQ = new Vector<Process>();
-
 	public SJF(GUIScheduler gui) {
 		super(gui);
 	}
@@ -55,7 +54,7 @@ public class SJF extends Scheduler{
 		}
 		readyQ.sort(Comparator.comparing(Process::getBurstTime));
 	}
-	public static void SJFScheduler() {
+	public void SJFScheduler() {
 		processes.sort(Comparator.comparing(Process::getArrivalTime).thenComparingInt(Process::getBurstTime));
 		int time = processes.elementAt(0).getArrivalTime();
 		int completed = 0;
@@ -76,6 +75,7 @@ public class SJF extends Scheduler{
 				executionSegment.process.setWaitingTime(executionSegment.process.getTurnAround() - executionSegment.process.getBurstTime());
 				averageTurnaroundTime += executionSegment.process.getTurnAround();
 				averageWaitingTime += executionSegment.process.getWaitingTime();
+				gui.switchExecution(executionSegment);
 				completedProcesses.add(executionSegment);
 			}
 			else if(completed != processes.size())

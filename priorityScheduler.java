@@ -60,7 +60,7 @@ public class priorityScheduler extends Scheduler{
 		}
 		readyQ.sort(Comparator.comparing(Process::getPriority));
 	}
-	public static void priorityScheduling() {
+	public void priorityScheduling() {
 		processes.sort(Comparator.comparing(Process::getArrivalTime).thenComparingInt(Process::getPriority));
 		int time = processes.elementAt(0).getArrivalTime();
 		int completed = 0;
@@ -81,6 +81,7 @@ public class priorityScheduler extends Scheduler{
 				averageTurnaroundTime += executionSegment.process.getTurnAround();
 				averageWaitingTime += executionSegment.process.getWaitingTime();
 				completedProcesses.add(executionSegment);
+				gui.switchExecution(executionSegment);
 				//for aging:
 				for(int i = 1 ; i < readyQ.size() ; i++) {
 					if(readyQ.elementAt(i).getPriority() > 1)
