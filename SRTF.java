@@ -57,7 +57,7 @@ public class SRTF extends Scheduler{
         readyQ.sort(Comparator.comparing(Process::getRemainingTime));
     }
 
-    public static void runSRTF(){
+    public void runSRTF(){
         processes.sort(Comparator.comparing(Process::getArrivalTime).thenComparingInt(Process::getRemainingTime));
         int time = processes.elementAt(0).getArrivalTime();
         int completed = 0;
@@ -83,6 +83,7 @@ public class SRTF extends Scheduler{
                     averageWaitingTime += executionSegment.process.getWaitingTime();
                 }
                 completedProcesses.add(executionSegment);
+                gui.switchExecution(executionSegment);
             }
             else if(completed != processes.size())
                 time = processes.elementAt(completed).getArrivalTime();
