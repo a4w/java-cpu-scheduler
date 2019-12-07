@@ -51,6 +51,12 @@ public class Process{
         this.burstTime = burstTime;
         this.isCompleted = false;
     }
+    public Process(String name, int arrivalTime, int remainingTime, boolean isCompleted){
+        this.name = name;
+        this.arrivalTime = arrivalTime;
+        this.remainingTime = remainingTime;
+        this.isCompleted = isCompleted;
+    }
     public void setName(String name) {
         this.name = name;
     }
