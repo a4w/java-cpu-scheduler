@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
@@ -190,7 +191,7 @@ class agProcess extends Process{
     int startTime = 0;
     int endTime = Integer.MAX_VALUE;
     public agProcess() {
-        super("",0,0,0,0,0,0,0);
+        super("",0,0,0, Color.BLACK);
     }
     public agProcess(Process p, int q) {
         super(p);
