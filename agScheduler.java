@@ -60,6 +60,7 @@ public class agScheduler extends Scheduler {
             }else if(currentProcess.getRemainingTime() == 0) {
                 currentProcess.endTime = currentTime;
                 current.end_time = currentTime;
+                current.process = currentProcess;
                 gui.switchExecution(current);
                 currentProcess.quantum = 0;
                 //Get first process in waiting queue
@@ -78,6 +79,7 @@ public class agScheduler extends Scheduler {
                     currentProcess.quantum += getMeanQuantum(currentProcess);
                     currentProcess.endTime = currentTime;
                     current.end_time = currentTime;
+                    current.process = currentProcess;
                     System.out.println(currentProcess.getName() + "'s new quantum is: " + currentProcess.quantum);
                      gui.switchExecution(current);
                     arrivedAndWaiting.add(currentProcess);
@@ -96,6 +98,7 @@ public class agScheduler extends Scheduler {
                         currentProcess.quantum += ((currentProcess.startTime + currentProcess.quantum) - currentTime);
                         currentProcess.endTime = currentTime;
                         current.end_time = currentTime;
+                        current.process = currentProcess;
                         gui.switchExecution(current);
                         System.out.println(currentProcess.getName() + "'s new quantum is: " + currentProcess.quantum);
                         //Append running in waiting queue
