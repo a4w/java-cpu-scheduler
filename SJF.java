@@ -1,5 +1,4 @@
 import java.util.Comparator;
-import java.util.Scanner;
 import java.util.Vector;
 
 public class SJF extends Scheduler{
@@ -7,6 +6,8 @@ public class SJF extends Scheduler{
 	public static Vector<Process> processes = new Vector<Process>();
 	public static Vector<ExecutionSegment> completedProcesses = new Vector<ExecutionSegment>();
 	public static Vector<Process> readyQ = new Vector<Process>();
+
+	public SJF(){}
 
 	public SJF(GUIScheduler gui) {
 		super(gui);

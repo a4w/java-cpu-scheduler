@@ -1,5 +1,4 @@
 import java.util.Comparator;
-import java.util.Scanner;
 import java.util.Vector;
 
 public class priorityScheduler extends Scheduler{

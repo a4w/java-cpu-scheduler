@@ -16,6 +16,9 @@ public class agScheduler extends Scheduler {
 		super(gui);
 		this.q = q;
 	}
+	public agScheduler(int q){
+		this.q = q;
+	}
 	public agScheduler(GUIScheduler gui){
 		super(gui);
 	}
