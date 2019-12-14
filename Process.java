@@ -12,30 +12,19 @@ public class Process{
     private boolean isCompleted;
     private Color color;
 
-
-    public Process(String name, int arrivalTime, int burstTime, int remainingTime, int lastEntered, int waitingTime, int turnAround, int priority) {
-        this.name = name;
-        this.arrivalTime = arrivalTime;
-        this.burstTime = burstTime;
-        this.remainingTime = remainingTime;
-        this.lastEntered = lastEntered;
-        this.waitingTime = waitingTime;
-        this.turnAround = turnAround;
-        this.priority = priority;
-    }
-
-    public Process(String name, int arrivalTime, int burstTime, int waitingTime) {
-        this.name = name;
-        this.arrivalTime = arrivalTime;
-        this.burstTime = burstTime;
-        this.waitingTime = waitingTime;
-    }
-
     public Process(String name, int arrivalTime, int burstTime, Color color) {
         this.name = name;
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
         this.isCompleted = false;
+        this.color = color;
+    }
+    public Process(String name, int arrivalTime, int burstTime, int priority, Color color) {
+        this.name = name;
+        this.arrivalTime = arrivalTime;
+        this.burstTime = burstTime;
+        this.isCompleted = false;
+        this.priority = priority;
         this.color = color;
     }
 
@@ -81,11 +70,11 @@ public class Process{
     public void setPriority(int priority) {
         this.priority = priority;
     }
-    
+
     public void setIsCompleted(boolean isCompleted) {
         this.isCompleted = isCompleted;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -117,7 +106,7 @@ public class Process{
     public int getPriority() {
         return priority;
     }
-    
+
     public boolean getIsCompleted() {
         return isCompleted;
     }
