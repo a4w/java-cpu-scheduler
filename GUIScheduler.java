@@ -109,10 +109,10 @@ class GUIScheduler extends JFrame{
         final int n = this.processView.size();
         // Segment size 
         final int scale = 20;
-        final int size = (segment.end_time - segment.start_time + 1) * scale;
+        final int size = (segment.end_time - segment.start_time) * scale;
         for(Process p : this.processView.keySet()){
             JPanel pholder = new JPanel();
-            pholder.setMaximumSize(new Dimension(size, 30));
+            pholder.setMaximumSize(new Dimension(size, 300));
             pholder.setMinimumSize(new Dimension(size, 300));
             if(segment.process == null){
                 // Context switch
