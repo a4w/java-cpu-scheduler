@@ -19,6 +19,8 @@ class GUIScheduler extends JFrame{
 
     private JPanel chart;
     private JPanel summary;
+    private JLabel avgWaiting;
+    private JLabel avgTurnAround;
 
     private HashMap<Process, ProcessView> processView;
 
@@ -40,6 +42,12 @@ class GUIScheduler extends JFrame{
         this.summary.setLayout(new BoxLayout(this.summary, BoxLayout.PAGE_AXIS));
         this.summary.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3, true));
         this.add(summary);
+
+        // Averages
+        this.avgWaiting = new JLabel("Average Waiting time: 0.00");
+        this.avgTurnAround = new JLabel("Average Turnaround time: 0.00");
+        this.add(avgWaiting);
+        this.add(avgTurnAround);
 
         this.setSize(new Dimension(1000, 300));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,6 +104,9 @@ class GUIScheduler extends JFrame{
     }
 
     void switchExecution(ExecutionSegment segment){
+        double avgWaitingC = 0;
+        double avgTurnaroundC = 0;
+        final int n = this.processView.size();
         for(Process p : this.processView.keySet()){
             JPanel pholder = new JPanel();
             if(segment.process == null){
@@ -106,6 +117,11 @@ class GUIScheduler extends JFrame{
                 pholder.setBackground(p.getColor());
             }
             this.processView.get(p).gantt.add(pholder);
+            avgWaitingC += p.getWaitingTime() / (double) n;
+            avgTurnaroundC += p.getTurnAround() / (double) n;
         }
+        // Update averages
+        this.avgWaiting.setText("Average waiting time: " + avgWaitingC);
+        this.avgTurnAround.setText("Average turnaround time: " + avgTurnaroundC);
     }
 }

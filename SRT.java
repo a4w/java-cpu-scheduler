@@ -55,6 +55,8 @@ class SRT extends Scheduler {
                     System.out.println("Finished " + processes.get(minIdx).getName());
                     System.out.println("Turnaround time: " + turnaround);
                     System.out.println("Waiting time: " + waiting);
+                    processes.get(minIdx).setWaitingTime(waiting);
+                    processes.get(minIdx).setTurnAround(turnaround);
                 }
             }
             time++;
