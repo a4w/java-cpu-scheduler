@@ -1,3 +1,4 @@
+import java.awt.Color;
 
 public class Process{
     private String name;
@@ -9,6 +10,7 @@ public class Process{
     private int turnAround;
     private int priority;
     private boolean isCompleted;
+    private Color color;
 
 
     public Process(String name, int arrivalTime, int burstTime, int remainingTime, int lastEntered, int waitingTime, int turnAround, int priority) {
@@ -21,21 +23,24 @@ public class Process{
         this.turnAround = turnAround;
         this.priority = priority;
     }
+
     public Process(String name, int arrivalTime, int burstTime, int waitingTime) {
         this.name = name;
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
         this.waitingTime = waitingTime;
     }
-    public Process(String name, int arrivalTime, int burstTime) {
+
+    public Process(String name, int arrivalTime, int burstTime, Color color) {
         this.name = name;
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
         this.isCompleted = false;
+        this.color = color;
     }
 
     public Process(Process p) {
-    	this.name = p.getName();
+        this.name = p.getName();
         this.arrivalTime = p.getArrivalTime();
         this.burstTime = p.getBurstTime();
         this.remainingTime = p.getBurstTime();
@@ -44,6 +49,7 @@ public class Process{
         this.turnAround = p.getTurnAround();
         this.priority = p.getPriority();
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -77,7 +83,7 @@ public class Process{
     }
     
     public void setIsCompleted(boolean isCompleted) {
-    	this.isCompleted = isCompleted;
+        this.isCompleted = isCompleted;
     }
     
     public String getName() {
@@ -113,11 +119,11 @@ public class Process{
     }
     
     public boolean getIsCompleted() {
-    	return isCompleted;
+        return isCompleted;
     }
 
-    public static void Main(String[] args){
-        Process p = new Process("okasha",1,2,3,4,5,6,7);
-        System.out.println(p.getName());
+    public Color getColor(){
+        return this.color;
     }
+
 }

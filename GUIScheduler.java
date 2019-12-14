@@ -53,7 +53,7 @@ class GUIScheduler extends JFrame{
                 pholder.setBackground(Color.BLACK);
             }else if(p == segment.process){
                 // Add colored segment
-                pholder.setBackground(Color.RED);
+                pholder.setBackground(p.getColor());
             }
             this.processView.get(p).add(pholder);
         }
