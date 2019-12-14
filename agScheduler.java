@@ -21,8 +21,12 @@ public class agScheduler extends Scheduler {
     public agScheduler(GUIScheduler gui){
         super(gui);
     }
-    public Process[] getProcesses() {
-        return (Process[]) processes.toArray();
+    public Process[] getProcesses(){
+        Process[] arr = new Process[processes.size()];
+        for(int i = 0; i < arr.length; ++i){
+            arr[i] = processes.get(i);
+        } 
+        return arr;
     }
     public void addProcess(Process process) {
         agProcess p = new agProcess(process, this.q);
