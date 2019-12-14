@@ -107,9 +107,13 @@ class GUIScheduler extends JFrame{
         double avgWaitingC = 0;
         double avgTurnaroundC = 0;
         final int n = this.processView.size();
-        System.out.println(segment.process.getColor());
+        // Segment size 
+        final int scale = 20;
+        final int size = (segment.end_time - segment.start_time + 1) * scale;
         for(Process p : this.processView.keySet()){
             JPanel pholder = new JPanel();
+            pholder.setMaximumSize(new Dimension(size, 30));
+            pholder.setMinimumSize(new Dimension(size, 300));
             if(segment.process == null){
                 // Context switch
                 pholder.setBackground(Color.BLACK);
