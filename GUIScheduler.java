@@ -49,7 +49,7 @@ class GUIScheduler extends JFrame{
         this.add(avgWaiting);
         this.add(avgTurnAround);
 
-        this.setSize(new Dimension(1000, 300));
+        this.setSize(new Dimension(1000, 400));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
     }
@@ -112,8 +112,8 @@ class GUIScheduler extends JFrame{
         final int size = (segment.end_time - segment.start_time) * scale;
         for(Process p : this.processView.keySet()){
             JPanel pholder = new JPanel();
-            pholder.setMaximumSize(new Dimension(size, 300));
-            pholder.setMinimumSize(new Dimension(size, 300));
+            pholder.setMaximumSize(new Dimension(size, 20));
+            pholder.setMinimumSize(new Dimension(size, 20));
             if(segment.process == null){
                 // Context switch
                 pholder.setBackground(Color.BLACK);
