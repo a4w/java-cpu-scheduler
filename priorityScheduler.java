@@ -13,10 +13,11 @@ public class priorityScheduler extends Scheduler {
     }
 
     public Process[] getProcesses(){
-    	Vector<Process> allProcesses = new Vector<Process>();
-		for(int i = 0 ; i < completedProcesses.size() ; i++)
-			allProcesses.add(completedProcesses.elementAt(i).process);
-		return (Process[]) processes.toArray();
+        Process[] arr = new Process[processes.size()];
+        for(int i = 0; i < arr.length; ++i){
+            arr[i] = processes.get(i);
+        } 
+        return arr;
     }
 
     public void addProcess(Process process) {

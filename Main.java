@@ -4,25 +4,27 @@ public class Main {
     public static void main(String[] args) {
 
         GUIScheduler gui = new GUIScheduler();
-        SRTF srtf = new SRTF(gui);
+        priorityScheduler ps = new priorityScheduler(gui);
 
-        Process P1 = new Process("P1", 0, 7, Color.RED);
-        Process P2 = new Process("P2", 1, 5, Color.PINK);
-        Process P3 = new Process("P3", 2, 3, Color.CYAN);
-        Process P4 = new Process("P4", 3, 1, Color.MAGENTA);
-        Process P5 = new Process("P5", 4, 2, Color.BLUE);
-        Process P6 = new Process("P6", 5, 1, Color.YELLOW);
+        Process P1 = new Process("P1", 0, 3, 4, Color.RED);
+        Process P2 = new Process("P2", 2, 5, 6, Color.PINK);
+        Process P3 = new Process("P3", 1, 4, 3, Color.CYAN);
+        Process P4 = new Process("P4", 4, 2, 5, Color.MAGENTA);
+        Process P5 = new Process("P5", 6, 9, 7, Color.MAGENTA);
+        Process P6 = new Process("P6", 5, 4, 7, Color.MAGENTA);
+        Process P7 = new Process("P7", 7, 10, 10, Color.MAGENTA);
 
-        srtf.addProcess(P1);
-        srtf.addProcess(P2);
-        srtf.addProcess(P3);
-        srtf.addProcess(P4);
-        srtf.addProcess(P5);
-        srtf.addProcess(P6);
+        ps.addProcess(P1);
+        ps.addProcess(P2);
+        ps.addProcess(P3);
+        ps.addProcess(P4);
+        ps.addProcess(P5);
+        ps.addProcess(P6);
+        ps.addProcess(P7);
 
-        gui.setProcesses(srtf.getProcesses());
+        gui.setProcesses(ps.getProcesses());
 
-        srtf.runSRTF();
+        ps.priorityScheduling();
 
     }
 }
