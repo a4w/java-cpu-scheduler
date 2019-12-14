@@ -1,30 +1,56 @@
 import java.awt.Color;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
-        GUIScheduler gui = new GUIScheduler();
-        priorityScheduler ps = new priorityScheduler(gui);
+    	Scanner inputStr = new Scanner (System.in);
+    	Scanner inputInt = new Scanner (System.in);
+    	int procNum;
+    	String name, color;
+    	int arrival, burst, priorty, rrQuantum;
+    	
+        GUIScheduler SJFgui = new GUIScheduler();
+        GUIScheduler SRTFgui = new GUIScheduler();
+        GUIScheduler Priortygui = new GUIScheduler();
+        GUIScheduler AGgui = new GUIScheduler();
 
-        Process P1 = new Process("P1", 0, 3, 2, Color.RED);
-        Process P2 = new Process("P2", 2, 5, 6, Color.PINK);
-        Process P3 = new Process("P3", 1, 4, 3, Color.CYAN);
-        Process P4 = new Process("P4", 4, 2, 5, Color.MAGENTA);
-        Process P5 = new Process("P5", 6, 9, 7, Color.MAGENTA);
-        Process P6 = new Process("P6", 5, 4, 4, Color.MAGENTA);
-        Process P7 = new Process("P7", 7, 10, 10, Color.MAGENTA);
-
-        ps.addProcess(P1);
-        ps.addProcess(P2);
-        ps.addProcess(P3);
-        ps.addProcess(P4);
-        ps.addProcess(P5);
-        ps.addProcess(P6);
-        ps.addProcess(P7);
-
-        gui.setProcesses(ps.getProcesses());
-
-        ps.priorityScheduling();
+		System.out.println("enter number of processes: ");
+		procNum = inputInt.nextInt();
+		System.out.println("enter round robin time quantum: ");
+		rrQuantum = inputInt.nextInt();
+		
+		SJF sjf = new SJF(SJFgui);
+		SRTF srtf = new SRTF(SRTFgui);
+		priorityScheduler p = new priorityScheduler(Priortygui);
+		agScheduler ag = new agScheduler(AGgui, rrQuantum);
+		
+		for (int i=0; i<procNum; i++)
+		{
+			System.out.println("ENTER NAME, BURST TIME, ARRIVAL TIME, PIRIORITY NUMBER, QUANTUM OF PROCESS " + (i+1));
+			name = inputStr.nextLine();
+			burst = inputInt.nextInt();
+			arrival = inputInt.nextInt();
+			priorty = inputInt.nextInt();
+			color = inputStr.nextLine();
+			Process process = new Process(name, arrival, burst, priorty,Color.getColor(color));
+			
+			sjf.addProcess(process);
+			srtf.addProcess(process);
+			p.addProcess(process);
+			ag.addProcess(process);
+		}
+		inputInt.close();
+		inputStr.close();
+		
+		SJFgui.setProcesses(sjf.getProcesses());
+		sjf.SJFScheduler();
+        SRTFgui.setProcesses(srtf.getProcesses());
+        srtf.runSRTF();
+        Priortygui.setProcesses(p.getProcesses());
+        p.priorityScheduling();
+        AGgui.setProcesses(ag.getProcesses());
+        ag.executeProcesses();
 
     }
 }
