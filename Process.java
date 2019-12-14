@@ -18,6 +18,7 @@ public class Process{
         this.burstTime = burstTime;
         this.isCompleted = false;
         this.color = color;
+        this.remainingTime = this.burstTime;
     }
     public Process(String name, int arrivalTime, int burstTime, int priority, Color color) {
         this.name = name;
@@ -26,6 +27,7 @@ public class Process{
         this.isCompleted = false;
         this.priority = priority;
         this.color = color;
+        this.remainingTime = this.burstTime;
     }
 
     public Process(Process p) {
