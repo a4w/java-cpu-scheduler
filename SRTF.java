@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.Comparator;
 import java.util.Scanner;
 import java.util.Vector;
@@ -67,14 +68,19 @@ public class SRTF extends Scheduler{
         double averageWaitingTime = 0;
         while(true) {
             addToReadyQ(time);
+            Process last = new Process("name",1,1, Color.BLACK);
+            if(!readyQ.isEmpty()) last.setName(readyQ.elementAt(0).getName());
             if(readyQ.size() != 0) {
                 ExecutionSegment executionSegment = new ExecutionSegment();
                 executionSegment.process = readyQ.elementAt(0);
                 executionSegment.start_time = time;
                 time++;
                 readyQ.elementAt(0).setRemainingTime(readyQ.elementAt(0).getRemainingTime()-1);
+
                 if(readyQ.elementAt(0).getRemainingTime() == 0) {
                     readyQ.elementAt(0).setIsCompleted(true);
+                    readyQ.elementAt(0).setTurnAround(time - readyQ.elementAt(0).getArrivalTime());
+                    readyQ.elementAt(0).setWaitingTime(readyQ.elementAt(0).getTurnAround() - readyQ.elementAt(0).getBurstTime());
                     completed++;
                 }
                 executionSegment.end_time = time;
@@ -86,6 +92,17 @@ public class SRTF extends Scheduler{
                 }
                 completedProcesses.add(executionSegment);
                 gui.switchExecution(executionSegment);
+
+                addToReadyQ(time);
+                if(!readyQ.isEmpty() && readyQ.elementAt(0).getName() != last.getName()){
+                    ExecutionSegment s = new ExecutionSegment();
+                    s.process = null;
+                    s.start_time = time;
+                    s.end_time = ++time;
+                    //completedProcesses.add(s);
+                    gui.switchExecution(s);
+
+                }
             }
             else if(completed != processes.size())
                 time = processes.elementAt(completed).getArrivalTime();
@@ -95,8 +112,10 @@ public class SRTF extends Scheduler{
         averageTurnaroundTime /= processes.size();
         averageWaitingTime /= processes.size();
         for(int i = 0 ; i < completedProcesses.size() ; i++)
-        	System.out.println("Process : " + completedProcesses.elementAt(i).process.getName() + "  starts : " + completedProcesses.elementAt(i).start_time + "  ends : " + completedProcesses.elementAt(i).end_time +
-					"  , waiting time : " + completedProcesses.elementAt(i).process.getWaitingTime() + "  , turnaround time : " + completedProcesses.elementAt(i).process.getTurnAround());
+        	System.out.println("proccess: " + completedProcesses.elementAt(i).process.getName() +"  starts : " + completedProcesses.elementAt(i).start_time + "  ends : " + completedProcesses.elementAt(i).end_time);
+        for(int i=0 ; i<processes.size() ; i++){
+            System.out.println("Process : " + completedProcesses.elementAt(i).process.getName() + " waiting time : "+ processes.elementAt(i).getWaitingTime() + " TurnAround time : "+processes.elementAt(i).getTurnAround());
+        }
 		System.out.println("avg waiting time : " + averageWaitingTime + "  avg turnaround time : " + averageTurnaroundTime);
     }
 }
