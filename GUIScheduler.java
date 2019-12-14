@@ -23,6 +23,7 @@ class GUIScheduler extends JFrame{
         this.add(chart);
 
         this.pack();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
     }
 
@@ -41,12 +42,16 @@ class GUIScheduler extends JFrame{
             this.processView.put(_processes[i], row); // To access later
             this.chart.add(row);
         }
+        this.pack();
     }
 
     void switchExecution(ExecutionSegment segment){
         for(Process p : this.processView.keySet()){
             JPanel pholder = new JPanel();
-            if(p == segment.process){
+            if(segment.process == null){
+                // Context switch
+                pholder.setBackground(Color.BLACK);
+            }else if(p == segment.process){
                 // Add colored segment
                 pholder.setBackground(Color.RED);
             }

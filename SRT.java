@@ -32,6 +32,11 @@ class SRT extends Scheduler {
             }
             if(minIdx != -1){
                 if(lastIdx != minIdx){
+                    ExecutionSegment segment = new ExecutionSegment();
+                    segment.start_time = time;
+                    segment.end_time = time+contextSwitchTime;
+                    segment.process = null;
+                    gui.switchExecution(segment);
                     time += contextSwitchTime;
                     lastIdx = minIdx;
                     time--;
