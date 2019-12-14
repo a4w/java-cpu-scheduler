@@ -20,6 +20,7 @@ public class Process{
         this.color = color;
         this.remainingTime = this.burstTime;
     }
+
     public Process(String name, int arrivalTime, int burstTime, int priority, Color color) {
         this.name = name;
         this.arrivalTime = arrivalTime;
@@ -39,6 +40,7 @@ public class Process{
         this.waitingTime = p.getWaitingTime();
         this.turnAround = p.getTurnAround();
         this.priority = p.getPriority();
+        this.color = p.getColor();
     }
 
     public void setName(String name) {
