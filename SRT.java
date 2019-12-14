@@ -3,9 +3,7 @@ import java.util.ArrayList;
 
 class SRT extends Scheduler {
     ArrayList<Process> processes;
-    SRT(){
-        this.processes = new ArrayList<>();
-    }
+
     SRT(GUIScheduler gui){
         super(gui);
         this.processes = new ArrayList<>();
