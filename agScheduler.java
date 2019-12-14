@@ -149,19 +149,27 @@ public class agScheduler extends Scheduler {
         agProcess p = list.get(i);
         return p;
     }
-    private static void calculateTurnAround() {
+    private void calculateTurnAround() {
         for(agProcess p: processes) {
             p.setTurnAround(p.endTime - p.getArrivalTime());
             avgTurnAroundTime += p.getTurnAround();
         }
         avgTurnAroundTime /= (double)processes.size();
+        this.setAvg();
     }
-    private static void calculateWaiting() {
+    private void calculateWaiting() {
         for(agProcess p: processes) {
             p.setWaitingTime(p.getTurnAround() - p.getBurstTime());
             avgWaitingTime += p.getWaitingTime();
         }
         avgWaitingTime /= (double)processes.size();
+        this.setAvg();
+    }
+    private void setAvg() {
+    	current.process = null;
+        current.end_time = 0;
+        current.start_time = 0;
+        gui.switchExecution(current);
     }
     public double getAvgTurnAroundTime() {
         return avgTurnAroundTime;
