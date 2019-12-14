@@ -72,13 +72,13 @@ public class priorityScheduler extends Scheduler {
                         executionSegment.process.getTurnAround() - executionSegment.process.getBurstTime());
                 averageTurnaroundTime += executionSegment.process.getTurnAround();
                 averageWaitingTime += executionSegment.process.getWaitingTime();
+                gui.switchExecution(executionSegment);
+                completedProcesses.add(executionSegment);
                 // for aging:
                 for (int i = 1; i < readyQ.size(); i++) {
                     if (readyQ.elementAt(i).getPriority() > 1)
                         readyQ.elementAt(i).setPriority(readyQ.elementAt(i).getPriority() - 1);
                 }
-                gui.switchExecution(executionSegment);
-                completedProcesses.add(executionSegment);
                 
             } else if (completed != processes.size())
                 time = processes.elementAt(completed).getArrivalTime();
