@@ -10,11 +10,13 @@ public class SRTF extends Scheduler{
     public SRTF(GUIScheduler gui) {
         super(gui);
     }
-    public Process[] getProcesses() {
-        Vector<Process> allProcesses = new Vector<Process>();
-        for(int i = 0 ; i < completedProcesses.size() ; i++)
-            allProcesses.add(completedProcesses.elementAt(i).process);
-        return (Process[]) processes.toArray();
+
+    public Process[] getProcesses(){
+        Process[] arr = new Process[processes.size()];
+        for(int i = 0; i < arr.length; ++i){
+            arr[i] = processes.get(i);
+        } 
+        return arr;
     }
 
     public void addProcess(Process process) {
