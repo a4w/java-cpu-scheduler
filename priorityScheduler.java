@@ -13,11 +13,10 @@ public class priorityScheduler extends Scheduler {
     }
 
     public Process[] getProcesses(){
-        Process[] arr = new Process[processes.size()];
-        for(int i = 0; i < arr.length; ++i){
-            arr[i] = processes.get(i);
-        } 
-        return arr;
+    	Vector<Process> allProcesses = new Vector<Process>();
+		for(int i = 0 ; i < completedProcesses.size() ; i++)
+			allProcesses.add(completedProcesses.elementAt(i).process);
+		return (Process[]) processes.toArray();
     }
 
     public void addProcess(Process process) {
@@ -72,13 +71,14 @@ public class priorityScheduler extends Scheduler {
                         executionSegment.process.getTurnAround() - executionSegment.process.getBurstTime());
                 averageTurnaroundTime += executionSegment.process.getTurnAround();
                 averageWaitingTime += executionSegment.process.getWaitingTime();
-                completedProcesses.add(executionSegment);
-                gui.switchExecution(executionSegment);
                 // for aging:
                 for (int i = 1; i < readyQ.size(); i++) {
                     if (readyQ.elementAt(i).getPriority() > 1)
                         readyQ.elementAt(i).setPriority(readyQ.elementAt(i).getPriority() - 1);
                 }
+                gui.switchExecution(executionSegment);
+                completedProcesses.add(executionSegment);
+                
             } else if (completed != processes.size())
                 time = processes.elementAt(completed).getArrivalTime();
             else
