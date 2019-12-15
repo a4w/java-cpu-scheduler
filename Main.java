@@ -27,10 +27,10 @@ public class Main {
 		
 		for (int i=0; i<procNum; i++)
 		{
-			System.out.println("ENTER NAME, BURST TIME, ARRIVAL TIME, PIRIORITY NUMBER, QUANTUM OF PROCESS " + (i+1));
+			System.out.println("enter name, arrival, burst, priorty and color of process number " + (i+1));
 			name = inputStr.nextLine();
-			burst = inputInt.nextInt();
 			arrival = inputInt.nextInt();
+			burst = inputInt.nextInt();
 			priorty = inputInt.nextInt();
 			color = inputStr.nextLine();
 			Process process = new Process(name, arrival, burst, priorty,Color.getColor(color));
