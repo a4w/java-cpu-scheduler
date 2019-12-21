@@ -3,6 +3,17 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        GUIScheduler srtfGUI = new GUIScheduler();
+        SRTF srtf = new SRTF(srtfGUI);
+
+        GUIScheduler sjfGUI = new GUIScheduler();
+        SJF sjf = new SJF(sjfGUI);
+
+        GUIScheduler agGUI = new GUIScheduler();
+        agScheduler ag = new agScheduler(agGUI);
+
+        GUIScheduler pGUI = new GUIScheduler();
+        priorityScheduler p = new priorityScheduler(pGUI);
 
     	Scanner inputStr = new Scanner (System.in);
     	Scanner inputInt = new Scanner (System.in);
